@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <link rel="stylesheet" href="css/Home.css">
+</head>
+<body>
+
+    <!-- NAV BAR -->
+    <nav>
+        <div class="logo"><a href="Home.html"><h1>Red Planta</h1></a></div>
+        <ul>
+            <li><a href="Home.html">Home</a></li>
+            <li><a href="Shop.html">Catalogue</a></li>
+            <li><a href="#">Contact</a></li>
+        </ul>
+        <div class="more">
+            <a href="#"><h2>Search</h2></a>
+            <h2>Cart(0)</h2>
+        </div>
+    </nav>
+
+    <!-- SECTION -->
+    <section class="hero-section">
+        <div class="text-content">
+            <h1>Find perfect plants for your home</h1>
+            <p>Beautiful plants that encourage you to get creative.</p>
+            <button type="button">SHOP NOW</button>
+        </div>
+        <div class="image-content">
+            <img src="image/Image.png" alt="Plants">
+        </div>
+    </section>
+
+    <!-- Categories -->
+    <h3>Categories</h3>
+    <div class="categories">
+        <div class="category">
+            <img src="image/Image (1).png" alt="Jungle Plants">
+            <h4>Jungle Plants</h4>
+        </div>
+        <div class="category">
+            <img src="image/Image (2).png" alt="Outdoor Plants">
+            <h4>Outdoor Plants</h4>
+        </div>
+        <div class="category">
+            <img src="image/Image (3).png" alt="Bedroom Plants">
+            <h4>Bedroom Plants</h4>
+        </div>
+        <div class="category">
+            <img src="image/Image (4).png" alt="Indoor Plants">
+            <h4>Indoor Plants</h4>
+        </div>
+    </div>
+
+    <!-- TEXT -->  
+    <div class="text">
+        <section>
+   <p class="hidden">
+Love and work are to people what water and 
+sunshine are to plants.
+        </p>
+        </section>
+    </div>
+
+    <div class="container">
+        <!-- Featured Section -->
+        <section class="featured">
+            <h1>Featured</h1>
+            <p>Our plants are 100% organic, we don't use pesticides or harmful chemicals.<br> But please don't eat them.</p>
+            <a href="Shop.html"><button type="button">Shop all Favourites</button></a>
+        </section>
+        
+        <!-- Blog Section -->
+        <section class="blog">
+            <div class="blog-item">
+                <img src="image/Image (9).png" alt="Blog 1">
+                <p>How to water your freaking plants so they don't die after one week</p>
+            </div>
+            <div class="blog-item">
+                <img src="image/Image (10).png" alt="Blog 2">
+                <p>How to repot a Monstera without killing it and foster its growth</p>
+            </div>
+        </section>
+
+        <!-- Newsletter Section -->
+        <section class="newsletter">
+            <p>Get 15% off your next order, <br> Subscribe to our Newsletter</p>
+            <div class="newsletter-input">
+                <label>
+                    <input type="email" placeholder="Enter Your Email Here">
+                </label>
+                <button type="submit">Subscribe</button>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // 1. Toggle Navbar on Scroll
+        let lastScrollTop = 0;
+        const nav = document.querySelector('nav');
+        window.addEventListener('scroll', function() {
+            let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            if (scrollTop > lastScrollTop) {
+                nav.style.top = '-60px'; // adjust value to hide the navbar
+            } else {
+                nav.style.top = '0';
+            }
+            lastScrollTop = scrollTop;
+        });
+
+        // 2. Smooth Scrolling for Anchor Links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // 3. Image Zoom on Hover
+        document.querySelectorAll('.featured img, .blog-item img').forEach(img => {
+            img.addEventListener('mouseenter', () => {
+                img.style.transform = 'scale(1.1)';
+                img.style.transition = 'transform 0.3s ease-in-out';
+            });
+            img.addEventListener('mouseleave', () => {
+                img.style.transform = 'scale(1)';
+            });
+        });
+
+
+        // 5. Search Functionality
+        const searchBtn = document.querySelector('.more a');
+        searchBtn.addEventListener('click', () => {
+            const searchTerm = prompt('Enter the name of the plant you are looking for:');
+            if (searchTerm) {
+                alert(`Searching for "${searchTerm}"...`);
+                // Add functionality to filter or redirect to the search results page
+            }
+        });
+ 
+        // 7. Display Cart Count Dynamically
+        let cartCount = 0;
+        const cart = document.querySelector('.more h2');
+        cart.addEventListener('click', () => {
+            cartCount++;
+            cart.textContent = `Cart(${cartCount})`;
+        });
+
+        // 8. Newsletter Input Validation
+        document.querySelector('.newsletter button').addEventListener('click', () => {
+            const emailInput = document.querySelector('.newsletter input[type="email"]');
+            const email = emailInput.value;
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailPattern.test(email)) {
+                alert('Please enter a valid email address');
+            } else {
+                alert('Thank you for subscribing!');
+            }
+        });
+
+        // 9. Add to Favourites
+        document.querySelectorAll('.category').forEach(category => {
+            const favouriteIcon = document.createElement('span');
+            favouriteIcon.textContent = '⭐';
+            favouriteIcon.style.cursor = 'pointer';
+            favouriteIcon.addEventListener('click', () => {
+                alert(`Added "${category.querySelector('h4').textContent}" to favourites`);
+            });
+            category.appendChild(favouriteIcon);
+        });
+
+
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('show');
+                } else {
+                    entry.target.classList.remove('show');
+                }
+            });
+        });
+
+        const hiddenElements = document.querySelectorAll('.hidden');
+        hiddenElements.forEach((el) => observer.observe(el));
+    </script>
+</body>
+</html>
